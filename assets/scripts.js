@@ -9,14 +9,14 @@ const app = {
     },
     fetchWeather: () => {
       //use the values from latitude and longitude to fetch the weather
-      let time = document.getElementById('timeZone')
+      let cityName = document.getElementById('cityName')
       let lat = document.getElementById('latitude').value;
       let lon = document.getElementById('longitude').value;
       let key = 'dbb76c5d98d5dbafcb94441c6a10236e';
       let lang = 'en';
       let units = 'Imperial';
-      let url = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${key}&units=${units}&lang=${lang}&time=${time}`;
-      //fetch the weather
+      let url = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${key}&units=${units}&lang=${lang}`;
+      //fetch the weather trying to add the city into the forcast 
       fetch(url)
         .then((resp) => {
           if (!resp.ok) throw new Error(resp.statusText);
@@ -48,13 +48,16 @@ const app = {
       //geolocation failed
       console.error(err);
     },
+   
     showWeather: (resp) => {
       console.log(resp);
+      getWeather()
       let row = document.querySelector('.weather.row');
       
       row.innerHTML = resp.daily
         .map((day, idx) => {
             // we * by 1000 so we can get the JS day time the 1000k converts it into js
+            // 0 1 2 3 4 = 5 day forcast 
           if (idx <= 4) {
             let dt = new Date(day.dt * 1000); 
             let sr = new Date(day.sunrise * 1000).toTimeString();
@@ -80,10 +83,7 @@ const app = {
                       day.feels_like.day
                     }&deg;F</p>
                     <p class="card-text">Pressure ${day.pressure}mb</p>
-                    <p class="card-text">Humidity ${day.humidity}%</p>
-                    <p class="card-text">UV Index ${day.uvi}</p>
-                    <p class="card-text">Precipitation ${day.pop * 100}%</p>
-                    <p class="card-text">Dewpoint ${day.dew_point}</p>
+                    <p class="card-text">Humidity ${day.humidity}%</p>                  
                     <p class="card-text">Wind ${day.wind_speed}m/s, ${
               day.wind_deg
             }&deg;</p>
@@ -98,6 +98,42 @@ const app = {
         .join(' ');
     },
   };
+  //this is how i got to display city name when you type in lat and lon into the website to display city name 
+  function getWeather() {
+    let lat = document.getElementById('latitude').value;
+      let lon = document.getElementById('longitude').value;
+    let url = 'http://api.openweathermap.org/geo/1.0/reverse?lat='+lat+'&lon='+lon+'&limit=1&appid=6327c9f5c6545908c354b38d4a67d325'
+    
+    fetch(url)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            console.log(data[0].name)
+            cityName.textContent=data[0].name
+        }) 
+      }
+      //local storage for lat 
+  function fetchWeather(){
+    $("ul").empty();
+    var lat = JSON.parse(localStorage.getItem("latitude"));
+    if(lat!==null){
+        lat=JSON.parse(localStorage.getItem("latitude"));
+        for(i=0; i<lat.length;i++){
+            addToList(lat[i]);
+        }
+        lat=latitude[i-1];
+        currentWeather(lat);
+    }
 
+}
+
+function clearHistory(event){
+    event.preventDefault();
+    lat=[];
+    localStorage.removeItem("latitude");
+    document.location.reload();
+
+}
   
   app.init();
