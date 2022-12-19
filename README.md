@@ -13,3 +13,4 @@
 # used open weather map.org for images on the page 
 # added set value location for tucson az 
 # also added current location button to display based of current location
+http://127.0.0.1:5500/index.html
