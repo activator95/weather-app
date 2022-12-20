@@ -14,3 +14,4 @@
 # added set value location for tucson az 
 # also added current location button to display based of current location
 http://127.0.0.1:5500/index.html
+https://activator95.github.io/weather-app/

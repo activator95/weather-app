@@ -15,7 +15,7 @@ const app = {
       let key = 'dbb76c5d98d5dbafcb94441c6a10236e';
       let lang = 'en';
       let units = 'Imperial';
-      let url = `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${key}&units=${units}&lang=${lang}`;
+      let url = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=${key}&units=${units}&lang=${lang}`;
       //fetch the weather trying to add the city into the forcast 
       fetch(url)
         .then((resp) => {
@@ -68,7 +68,7 @@ const app = {
                 <div class="card">
                 <h5 class="card-title p-2">${dt.toDateString()}</h5>
                   <img
-                    src="http://openweathermap.org/img/wn/${
+                    src="https://openweathermap.org/img/wn/${
                       day.weather[0].icon
                     }@4x.png"
                     class="cardImgTop"
@@ -102,7 +102,7 @@ const app = {
   function getWeather() {
     let lat = document.getElementById('latitude').value;
       let lon = document.getElementById('longitude').value;
-    let url = 'http://api.openweathermap.org/geo/1.0/reverse?lat='+lat+'&lon='+lon+'&limit=1&appid=6327c9f5c6545908c354b38d4a67d325'
+    let url = 'https://api.openweathermap.org/geo/1.0/reverse?lat='+lat+'&lon='+lon+'&limit=1&appid=6327c9f5c6545908c354b38d4a67d325'
     
     fetch(url)
         .then(function (response) {
